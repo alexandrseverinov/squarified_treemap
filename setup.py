@@ -14,7 +14,7 @@ setup(
     author="Aleksandr Severinov",
     author_email="aleksandr.severinov@phystech.edu",
     description="Python implementation of the squarified treemap layout algorithm",
-    packages=['negr.generate_features'],
+    packages=['squarified-treemap'],
     package_dir={'squarified-treemap': 'lib'},
     install_requires=["pandas", "matplotlib"]
 )
