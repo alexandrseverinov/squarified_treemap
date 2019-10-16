@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-import functions as f
+import lib.functions as f
 
 
 def squarify(sizes, x, y, dx, dy):
