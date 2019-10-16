@@ -11,4 +11,3 @@ def plot_treemap(df, value_col=None, hierarchy_cols=None):
     :return: matplotlib axes
     """
     return df.head()
-
