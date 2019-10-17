@@ -1,4 +1,4 @@
-from squarify import *
+from .squarify import *
 
 from functions import *
 
