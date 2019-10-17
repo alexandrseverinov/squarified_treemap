@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 
-import functions as f
+from . import functions as f
+# import functions as f
 
 
 def squarify(sizes, x, y, dx, dy):
@@ -44,7 +45,7 @@ def calc_full_layout(df, value_col, hierarchy_cols, width_over_height,
                      current_level, current_rect, full_layout):
     df_agg = df.groupby(hierarchy_cols[current_level])[value_col].sum()
     values, groups = list(df_agg.values), list(df_agg.index.values)
-    values, groups = zip(*sorted(zip(values, groups)))
+    values, groups = zip(*sorted(zip(values, groups), reverse=True))
     values_normed = [float(i) * current_rect['dx'] * current_rect['dy'] / sum(values) for i in values]
     rects = squarify(
         values_normed,
