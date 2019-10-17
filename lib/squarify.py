@@ -110,7 +110,7 @@ def plot_treemap(df, value_col, hierarchy_cols, fig_size=(16, 9)):
 
     for l, v, r in zip(labels, values, full_layout):
         x, y, dx, dy = r["x"], r["y"], r["dx"], r["dy"]
-        if dx * dy > 10 ** (-3):
+        if dx * dy > 10 ** (-5):
             ax.text(x + dx / 2, y + dy / 2, l, va="top", ha="center")
             ax.text(x + dx / 2, y + dy / 2, v, va="bottom", ha="center")
 
