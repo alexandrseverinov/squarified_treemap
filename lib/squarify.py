@@ -41,7 +41,9 @@ def pad_rectangle(rect, level, width_over_height):
 
 
 def calc_full_layout(df, value_col, hierarchy_cols, width_over_height,
-                     current_level, current_rect, full_layout):
+                     current_level, current_rect,
+                     full_layout, full_labels, full_values):
+
     df_agg = df.groupby(hierarchy_cols[current_level])[value_col].sum()
     values, groups = list(df_agg.values), list(df_agg.index.values)
     values, groups = zip(*sorted(zip(values, groups), reverse=True))
@@ -59,6 +61,8 @@ def calc_full_layout(df, value_col, hierarchy_cols, width_over_height,
 
     if current_level == len(hierarchy_cols) - 1:
         full_layout += rects
+        full_labels += groups
+        full_values += values
         return None
 
     for i, rect in enumerate(rects):
@@ -69,22 +73,26 @@ def calc_full_layout(df, value_col, hierarchy_cols, width_over_height,
             width_over_height,
             current_level + 1,
             rect,
-            full_layout
+            full_layout,
+            full_labels,
+            full_values
         )
 
 
-def plot_treemap(df, value_col, hierarchy_cols):
+def plot_treemap(df, value_col, hierarchy_cols, fig_size=(16, 9)):
     """
     :param df : pandas dataframe
     :param value_col : name of column with value
     :param hierarchy_cols : name of columns with hierarchy
+    :param fig_size : size of figure
     :return: matplotlib fig, axes
     """
-    fig_width, fig_height = 16, 9
-    full_layout = []
+    fig_width, fig_height = fig_size
     init_rect = {'x': 0, 'y': 0, 'dx': 1, 'dy': 1}
+    full_layout, labels, values = [], [], []
     calc_full_layout(
-        df, value_col, hierarchy_cols, fig_width / fig_height,  0, init_rect, full_layout
+        df, value_col, hierarchy_cols, fig_width / fig_height,  0, init_rect,
+        full_layout, labels, values
     )
 
     fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(fig_width, fig_height))
@@ -99,6 +107,12 @@ def plot_treemap(df, value_col, hierarchy_cols):
                     transform=ax.transAxes, figure=fig
                 ),
             )
+
+    for l, v, r in zip(labels, values, full_layout):
+        x, y, dx, dy = r["x"], r["y"], r["dx"], r["dy"]
+        if dx * dy > 10 ** (-3):
+            ax.text(x + dx / 2, y + dy / 2, l, va="top", ha="center")
+            ax.text(x + dx / 2, y + dy / 2, v, va="bottom", ha="center")
 
     fig.patches.extend(patches)
     ax.set_axis_off()
