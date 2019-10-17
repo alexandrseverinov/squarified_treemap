@@ -62,7 +62,7 @@ def calc_full_layout(df, value_col, hierarchy_cols, width_over_height,
     if current_level == len(hierarchy_cols) - 1:
         full_layout += rects
         full_labels += groups
-        full_values += values
+        full_values += list(map(int, values))
         return None
 
     for i, rect in enumerate(rects):
@@ -91,7 +91,7 @@ def plot_treemap(df, value_col, hierarchy_cols, fig_size=(16, 9)):
     init_rect = {'x': 0, 'y': 0, 'dx': 1, 'dy': 1}
     full_layout, labels, values = [], [], []
     calc_full_layout(
-        df, value_col, hierarchy_cols, fig_width / fig_height,  0, init_rect,
+        df, value_col, hierarchy_cols, fig_width / fig_height, 0, init_rect,
         full_layout, labels, values
     )
 
