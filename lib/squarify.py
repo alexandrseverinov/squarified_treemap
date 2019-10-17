@@ -112,9 +112,9 @@ def plot_treemap(df, value_col, hierarchy_cols, fig_size=(16, 9)):
         x, y, dx, dy = r["x"], r["y"], r["dx"], r["dy"]
         if dx * dy > 10 ** (-3):
             ax.text(x + dx / 2, y + dy / 2, l, va="bottom", ha="center",
-                    size=(dx * dy) ** 0.5 * 200)
+                    size=(dx * dy) ** 0.5 * 150)
             ax.text(x + dx / 2, y + dy / 2, int(v), va="top", ha="center",
-                    size=(dx * dy) ** 0.5 * 200)
+                    size=(dx * dy) ** 0.5 * 150)
 
     fig.patches.extend(patches)
     ax.set_axis_off()
